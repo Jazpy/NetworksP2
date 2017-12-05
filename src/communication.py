@@ -2,15 +2,17 @@
 
 def client_thread(connection, address):
     
-    # Send initial message
-    connection.sendall('Connection established\n'.encode('utf-8'))
+    # Set initial state
+    state = 0
 
     # Main thread loop
     while True:
 
         # Receive from client
         data = connection.recv(1024)
-        reply = 'ACK' + str(data)
+        code = int.from_bytes(data[:2], byteorder = 'big')
+
+        reply = 'Received code: ' + str(code)
 
         # Check if connection ended
         if not data:
