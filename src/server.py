@@ -6,7 +6,7 @@ from communication import client_thread
 
 def main():
     host = ''
-    port = 9999
+    port = 9998
 
     # Create a socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

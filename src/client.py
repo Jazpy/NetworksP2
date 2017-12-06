@@ -5,7 +5,7 @@ from select import select
 def main():
     s = socket.socket()
     host = socket.gethostname()
-    port = 9999
+    port = 9998
 
     s.connect((host, port))
 
@@ -17,10 +17,15 @@ def main():
 
     # Persistent variables
     state = 1
-    close_connection = False
 
     while True:
-        
+
+        # Terminate before checking socket
+        if state == 7:
+            reply = (32).to_bytes(1, byteorder = 'big')
+            s.sendall(reply)
+            break
+
         # Clean our variable
         reply = b''
 
@@ -31,7 +36,6 @@ def main():
         # Check to see if there is data to read
         r, _, _ = select([s], [], [])
         if r:
-            print('e')
             data = s.recv(4096)
             code = int.from_bytes(data[:1], byteorder = 'big')
         print('Client:')
@@ -84,14 +88,11 @@ def main():
 
                 # Switch to termination state
                 state = 7
-        elif state == 7:
-            close_connection = True
-            reply = (32).to_bytes(1, byteorder = 'big')
 
         s.sendall(reply)
 
         # Check if connection ended
-        if close_connection or not data:
+        if not data:
             break
         
     print('Client is closing connection')
