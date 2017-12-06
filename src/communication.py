@@ -116,7 +116,3 @@ def client_thread(connection, address):
     db.commit()
 
     print('Closed connection to ' + address[0] + ':' + str(address[1]))
-
-    cursor.execute('SELECT * FROM caught')
-    for row in cursor.fetchall():
-        print(row)

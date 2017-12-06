@@ -1,97 +1,141 @@
 #!/usr/bin/python
+from tkinter import Tk, Label, Button, StringVar
 import socket
 from select import select
 
-def main():
-    s = socket.socket()
-    host = socket.gethostname()
-    port = 9999
+# Aux function
+def code_to_byte(n):
+    return n.to_bytes(1, byteorder = 'big')
 
-    s.connect((host, port))
+class poke_client:
+    def __init__(self, master):
+        # GUI stuff
+        self.master = master
+        master.title("Pokedex")
+        master.minsize(width = 640, height = 480)
 
-    # Send the initial code
-    reply = (10).to_bytes(1, byteorder = 'big')
-    s.sendall(reply)
+        self.server_msg = StringVar()
+        self.server_msg.set('Connecting to server')
+        self.label = Label(master, textvariable = self.server_msg)
+        self.label.pack()
 
-    # Persistent variables
-    state = 1
+        self.yes_button = Button(master, text="Yes", command = self.yes)
+        self.yes_button.pack()
 
-    while True:
+        self.no_button = Button(master, text="No", command = self.no)
+        self.no_button.pack()
+
+        self.close_button = Button(master, text="Close", command = self.close)
+        self.close_button.pack()
+
+        # Socket and app stuff
+        self.s = socket.socket()
+        self.host = socket.gethostname()
+        self.port = 9999
+
+        # Begin connection with server and change states
+        self.s.connect((self.host, self.port))
+        reply = code_to_byte(10)
+        self.s.sendall(reply)
+        self.state = 1
+
+        # Call the server communication loop
+        self.server_loop()
+
+    def yes(self):
+        if self.state == 1 or self.state == 3:
+            self.state = 3
+            reply = code_to_byte(30)
+            self.s.sendall(reply)
+            self.server_loop()
+
+    def no(self):
+        if self.state == 1 or self.state == 3:
+            self.state = 7
+            reply = code_to_byte(31)
+            self.s.sendall(reply)
+            self.server_loop()
+
+    def close(self):
+        self.state = 7
+        self.server_loop()
+        self.master.quit()
+
+    def server_loop(self):
+
+        # Clean variable
+        reply = b''
 
         # Terminate before checking socket
-        if state == 7:
-            reply = (32).to_bytes(1, byteorder = 'big')
-            s.sendall(reply)
-            break
+        if self.state == 7:
+            reply = code_to_byte(32)
+            self.s.sendall(reply)
+            self.s.close
 
-        # Clean our variable
-        reply = b''
+            return
 
         # Get the server's response
         data = ''
         code = -1
 
         # Check to see if there is data to read
-        r, _, _ = select([s], [], [])
+        r, _, _ = select([self.s], [], [])
         if r:
-            data = s.recv(4096)
+            data = self.s.recv(4096)
             code = int.from_bytes(data[:1], byteorder = 'big')
 
         # Monster if to represent the FSM
-        if state == 1 and code == 20:
+        if self.state == 1 and code == 20:
 
             # Extract pokemon_id
             pokemon_id = int.from_bytes(data[1:2], byteorder = 'big')
 
-            # Ask for user input
-            to_catch = input('Catch pokemon with id ' + str(pokemon_id) + '? y/n: ')
+            # Show user, reply will be sent from yes or no functions, exit
+            self.server_msg.set('Catch pokemon with id ' + str(pokemon_id) + '?')
 
-            # Build reply
-            if to_catch == 'y':
-                state = 3
-                reply = (30).to_bytes(1, byteorder = 'big')
-            else:
-                state = 7
-                reply = (31).to_bytes(1, byteorder = 'big')
-        elif state == 3:
+            return
+
+        elif self.state == 3:
 
             # Check if we caught the pokemon
             if code == 22:
                 pokemon_id = int.from_bytes(data[1:2], byteorder = 'big')
                 image_size = int.from_bytes(data[2:3], byteorder = 'big')
                 image = int.from_bytes(data[3:], byteorder = 'big')
-                print('You caught the pokemon with id ' + str(pokemon_id))
+                self.server_msg.set('You caught the pokemon with id ' + str(pokemon_id))
 
                 # Switch to termination state
-                state = 7
+                self.state = 7
             elif code == 21:
                 pokemon_id = int.from_bytes(data[1:2], byteorder = 'big')
                 attempts = int.from_bytes(data[2:3], byteorder = 'big')
 
-                # Build reply
-                print(str(attempts) + ' attempts remaining')
-                to_catch = input('Keep trying to catch id ' + str(pokemon_id) + '? y/n: ')
+                # Show user, reply will be sent from yes or no functions, exit
+                self.server_msg.set('Keep trying to catch id ' + str(pokemon_id) + '? ' +
+                        str(attempts) + ' attempts remaining.')
 
-                if to_catch == 'y':
-                    state = 3
-                    reply = (30).to_bytes(1, byteorder = 'big')
-                else:
-                    state = 7
-                    reply = (31).to_bytes(1, byteorder = 'big')
-
+                return
+                
             elif code == 23:
-                print('Failed to capture pokemon')
+                self.server_msg.set('Failed to capture pokemon')
 
                 # Switch to termination state
-                state = 7
+                self.state = 7
 
-        s.sendall(reply)
+        self.s.sendall(reply)
 
-        # Check if connection ended
+        # Terminate if needed
+        if self.state == 7:
+            reply = code_to_byte(32)
+            self.s.sendall(reply)
+            self.s.close
+
+            return
+
         if not data:
-            break
-        
-    print('Client is closing connection')
-    s.close
+            self.s.close
+            return
 
-if __name__ == '__main__': main()
+root = Tk()
+gui = poke_client(root)
+root.mainloop()

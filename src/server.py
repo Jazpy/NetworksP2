@@ -10,12 +10,13 @@ def main():
 
     # Create a socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     # Bind the socket
     try:
         s.bind((host, port))
     except socket.error as err:
-        print('Binding failed, code: ' + str(msg[0]) + ' message: ' + msg[1])
+        print('Binding failed, code: ' + str(err[0]) + ' message: ' + err[1])
         return
 
     # Begin listening
