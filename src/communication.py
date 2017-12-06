@@ -1,6 +1,6 @@
 from random import randint
 from select import select
-import MySQLdb
+import os, MySQLdb
 
 # Aux functions
 def list_to_bytes(l):
@@ -72,10 +72,26 @@ def client_thread(connection, address):
 
                 out_code = (22).to_bytes(1, byteorder = 'big')
                 pokemon_id_code = pokemon_id.to_bytes(1, byteorder = 'big')
-                image_size = 10
+                
+
+                # Get image bytes, first, open the image using database info, store size
+                cursor.execute('SELECT image_path FROM pokemon WHERE pokemon_id = ' + 
+                        str(pokemon_id))
+                path = cursor.fetchall()[0][0]
+                print(path)
+
+                image_size = os.path.getsize(path)
                 image_size_code = image_size.to_bytes(4, byteorder = 'big')
-                image_code = (0).to_bytes(image_size, byteorder = 'big')
-                reply = out_code + pokemon_id_code + image_size_code + image_code
+
+                print(image_size)
+
+                # Open image and transform to bytes
+                image_bytes = b''
+                with open(path, 'rb') as image:
+                    f = image.read()
+                    image_bytes = bytes(f)
+
+                reply = out_code + pokemon_id_code + image_size_code + image_bytes
 
                 # Update the database if needed
                 cursor.execute('SELECT * FROM caught WHERE user_id = ' + str(user_id) + 
