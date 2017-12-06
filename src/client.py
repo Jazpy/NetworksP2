@@ -5,13 +5,11 @@ from select import select
 def main():
     s = socket.socket()
     host = socket.gethostname()
-    port = 9998
+    port = 9999
 
     s.connect((host, port))
 
     # Send the initial code
-    print('Client:')
-    print('Sending code: 10')
     reply = (10).to_bytes(1, byteorder = 'big')
     s.sendall(reply)
 
@@ -38,8 +36,6 @@ def main():
         if r:
             data = s.recv(4096)
             code = int.from_bytes(data[:1], byteorder = 'big')
-        print('Client:')
-        print('Received code: ' + str(code))
 
         # Monster if to represent the FSM
         if state == 1 and code == 20:
@@ -48,7 +44,7 @@ def main():
             pokemon_id = int.from_bytes(data[1:2], byteorder = 'big')
 
             # Ask for user input
-            to_catch = input('Catch pokemon with id ' + str(pokemon_id) + '?')
+            to_catch = input('Catch pokemon with id ' + str(pokemon_id) + '? y/n: ')
 
             # Build reply
             if to_catch == 'y':
@@ -64,7 +60,7 @@ def main():
                 pokemon_id = int.from_bytes(data[1:2], byteorder = 'big')
                 image_size = int.from_bytes(data[2:3], byteorder = 'big')
                 image = int.from_bytes(data[3:], byteorder = 'big')
-                print('You caught the pokemon with code ' + str(pokemon_id))
+                print('You caught the pokemon with id ' + str(pokemon_id))
 
                 # Switch to termination state
                 state = 7
@@ -74,7 +70,7 @@ def main():
 
                 # Build reply
                 print(str(attempts) + ' attempts remaining')
-                to_catch = input('Keep trying to catch id ' + str(pokemon_id) + '?')
+                to_catch = input('Keep trying to catch id ' + str(pokemon_id) + '? y/n: ')
 
                 if to_catch == 'y':
                     state = 3

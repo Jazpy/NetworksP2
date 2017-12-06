@@ -1,5 +1,6 @@
 from random import randint
 from select import select
+import MySQLdb
 
 # Aux functions
 def list_to_bytes(l):
@@ -11,8 +12,16 @@ def list_to_bytes(l):
     return ret
 
 # Main logic for communication
-
 def client_thread(connection, address):
+
+    # Connect to database
+    db = MySQLdb.connect(host = 'localhost', user = 'pokeuser',
+            passwd = 'poke', db = 'pokedex')
+    cursor = db.cursor()
+
+
+    # Only one user, this can change to add functionality
+    user_id = 1
     
     # Set persistent variables
     state = 0
@@ -35,10 +44,6 @@ def client_thread(connection, address):
 
         reply = b''
 
-        # Logging
-        print('Server:')
-        print('Received code:' + str(code))
-
         # Monster if to represent the FSM
         if state == 0 and code == 10:
 
@@ -47,10 +52,15 @@ def client_thread(connection, address):
 
             # We pick a pokemon id at random and send that, along
             # with the corresponding code
-            pokemon_id = randint(0, 9)
+            cursor.execute('SELECT * FROM pokemon')
+            total_pokemon = len(cursor.fetchall())
+            pokemon_id = randint(1, total_pokemon)
+
             reply = list_to_bytes([20, pokemon_id])
 
         elif (state == 2 or state == 4) and code == 30:
+            # Reduce available attempts
+            attempts = attempts - 1
 
             # Check if client captured pokemon, 50% chance
             caught = True
@@ -67,6 +77,14 @@ def client_thread(connection, address):
                 image_code = (0).to_bytes(image_size, byteorder = 'big')
                 reply = out_code + pokemon_id_code + image_size_code + image_code
 
+                # Update the database if needed
+                cursor.execute('SELECT * FROM caught WHERE user_id = ' + str(user_id) + 
+                        ' AND pokemon_id = ' + str(pokemon_id))
+
+                if not cursor.fetchall():
+                    cursor.execute('INSERT INTO caught(user_id, pokemon_id) VALUES (' +
+                            str(user_id) + ', ' + str(pokemon_id) + ')') 
+
                 # Cleanup
                 attempts = 3
             else:
@@ -81,7 +99,6 @@ def client_thread(connection, address):
                     state = 4
                     reply = list_to_bytes([21, pokemon_id, attempts])
 
-            attempts = attempts - 1
         elif (state == 2 or state == 4) and code == 31:
             state = 6
         elif (state == 5 or state == 6) and code == 32:
@@ -89,8 +106,6 @@ def client_thread(connection, address):
             reply = list_to_bytes([32])
 
         # Send the message
-        print('Server:')
-        print('Sending code: ' + str(reply))
         connection.sendall(reply)
 
         # Check if connection ended
@@ -98,4 +113,10 @@ def client_thread(connection, address):
             break
 
     connection.close()
+    db.commit()
+
     print('Closed connection to ' + address[0] + ':' + str(address[1]))
+
+    cursor.execute('SELECT * FROM caught')
+    for row in cursor.fetchall():
+        print(row)

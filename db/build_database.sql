@@ -22,7 +22,7 @@ CREATE TABLE caught
 INSERT INTO pokemon (name, image_path) VALUES ('Pikachu', '../db/images/pikachu.png');
 INSERT INTO pokemon (name, image_path) VALUES ('Bulbasaur', '../db/images/bulbasaur.png');
 INSERT INTO pokemon (name, image_path) VALUES ('Charmander', '../db/images/charmander.png');
-INSERT INTO pokemon (name, image_path) VALUES ('Squirtly', '../db/images/squirtle.png');
+INSERT INTO pokemon (name, image_path) VALUES ('Squirtle', '../db/images/squirtle.png');
 INSERT INTO pokemon (name, image_path) VALUES ('Charizard', '../db/images/charizard.png');
 INSERT INTO pokemon (name, image_path) VALUES ('Venosaur', '../db/images/venosaur.png');
 INSERT INTO pokemon (name, image_path) VALUES ('Blastoise', '../db/images/blastoise.png');
