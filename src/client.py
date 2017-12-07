@@ -1,6 +1,8 @@
 #!/usr/bin/python
-from tkinter import Tk, Label, Button, StringVar
 import socket
+from io import BytesIO
+from tkinter import Tk, Label, Button, StringVar
+from PIL import Image, ImageTk
 from select import select
 
 # Aux function
@@ -14,6 +16,9 @@ class poke_client:
         master.title("Pokedex")
         master.minsize(width = 640, height = 480)
 
+        self.poke_label = Label(master)
+        self.poke_label.pack()
+                
         self.server_msg = StringVar()
         self.server_msg.set('Connecting to server')
         self.label = Label(master, textvariable = self.server_msg)
@@ -100,8 +105,24 @@ class poke_client:
             # Check if we caught the pokemon
             if code == 22:
                 pokemon_id = int.from_bytes(data[1:2], byteorder = 'big')
-                image_size = int.from_bytes(data[2:3], byteorder = 'big')
-                image = int.from_bytes(data[3:], byteorder = 'big')
+                image_size = int.from_bytes(data[2:6], byteorder = 'big')
+
+                # Begin reading image data
+                # Read rest of buffer, and substract from total
+                image_bytes = data[6:]
+                read = len(image_bytes)
+
+                # Read until we have read all bytes
+                while read < image_size:
+                    data = self.s.recv(4096)
+                    image_bytes = image_bytes + data
+                    read = len(image_bytes)
+
+                # Display results
+                image = Image.open(BytesIO(image_bytes))
+                poke_image= ImageTk.PhotoImage(image)
+                self.poke_label.configure(image = poke_image)
+                self.poke_label.image = poke_image
                 self.server_msg.set('You caught the pokemon with id ' + str(pokemon_id))
 
                 # Switch to termination state

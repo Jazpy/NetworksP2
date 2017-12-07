@@ -78,12 +78,9 @@ def client_thread(connection, address):
                 cursor.execute('SELECT image_path FROM pokemon WHERE pokemon_id = ' + 
                         str(pokemon_id))
                 path = cursor.fetchall()[0][0]
-                print(path)
 
                 image_size = os.path.getsize(path)
                 image_size_code = image_size.to_bytes(4, byteorder = 'big')
-
-                print(image_size)
 
                 # Open image and transform to bytes
                 image_bytes = b''
