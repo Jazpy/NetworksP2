@@ -1,0 +1,16 @@
+.\" Pagina de Manual para el Segundo Proyecto de Redes.
+.\" Contacte a davfep_96@ciencias.unam.mx en caso de problemas.
+.TH man 1 "20 Dec 2017" "1.0" "Projecto2 pagina de manual"
+.SH NOMBRE
+make [install-server/run-server/run-client] \- Posibles maneras de ejecutar este programa.
+.SH DESCRIPTION
+En caso de servidor, se tiene que ejecutar primero con la opcion install-server, y despues la opcion run-server.
+En caso de cliente, basta con ejecutar con la opcion run-client.
+.SH OPCIONES
+Las descritas en la seccion anterior.
+Al ejecutar install-server se pide la contraseña de tu usuario de mysql.
+.SH BUGS
+No funciona.
+.SH AUTORES
+David Hernández
+Jazpes Medina

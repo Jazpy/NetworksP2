@@ -1,9 +1,20 @@
+DROP USER 'pokeuser'@'localhost';
+DROP DATABASE pokedex;
+
+CREATE USER 'pokeuser'@'localhost' IDENTIFIED BY 'poke';
+
+CREATE DATABASE pokedex;
+
+GRANT ALL PRIVILEGES ON pokedex.* TO 'pokeuser'@'localhost';
+
+FLUSH PRIVILEGES;
+
 use pokedex;
 
 CREATE TABLE pokemon
 (
 	pokemon_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(255), 
+	name VARCHAR(255),
 	image_path VARCHAR(255)
 );
 
