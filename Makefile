@@ -1,8 +1,12 @@
 run-client:
 	python src/client.py
 
+install:
+	pip install mysqlclient
+
 install-server:
 	mysql -p < db/build_database.sql
+	make install
 
 run-server:
-	python src/server.py
+	cd src/ && python server.py
