@@ -9,4 +9,4 @@ install-server:
 	make install
 
 run-server:
-	cd src/ && python server.py
+	cd src/ && python -m server 9999
