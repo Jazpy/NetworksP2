@@ -1,5 +1,6 @@
-#!/usr/bin/python
+192#!/usr/bin/python
 import socket
+import sys
 from io import BytesIO
 from tkinter import Tk, Label, Button, StringVar
 from PIL import Image, ImageTk
@@ -18,7 +19,7 @@ class poke_client:
 
         self.poke_label = Label(master)
         self.poke_label.pack()
-                
+
         self.server_msg = StringVar()
         self.server_msg.set('Connecting to server')
         self.label = Label(master, textvariable = self.server_msg)
@@ -35,7 +36,15 @@ class poke_client:
 
         # Socket and app stuff
         self.s = socket.socket()
-        self.host = socket.gethostname()
+
+
+        #lines added by Davif,
+
+        dns = socket.gethostbyaddr(sys.argv[1])
+        self.host = dns[0]
+        #lines added by Davif
+
+
         self.port = 9999
 
         # Begin connection with server and change states
@@ -136,7 +145,7 @@ class poke_client:
                         str(attempts) + ' attempts remaining.')
 
                 return
-                
+
             elif code == 23:
                 self.server_msg.set('Failed to capture pokemon')
 
