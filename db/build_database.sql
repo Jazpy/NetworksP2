@@ -1,5 +1,5 @@
-DROP USER 'pokeuser'@'localhost';
-DROP DATABASE pokedex;
+DROP USER IF EXISTS 'pokeuser'@'localhost';
+DROP DATABASE IF EXISTS pokedex;
 
 CREATE USER 'pokeuser'@'localhost' IDENTIFIED BY 'poke';
 
