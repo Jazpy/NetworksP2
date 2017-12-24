@@ -1,9 +1,22 @@
+"""
+This module handles server side logic, it implements the FSM and connects to
+our database for data transmission.
+
+    pydoc -w communication
+
+"""
 from random import randint
 from select import select
 import os, MySQLdb
 
 # Aux functions
 def list_to_bytes(l):
+    """
+    Transforms a list of strings or numbers into bytes for transmission.
+
+    :param l: the list with objects to transform.
+    :return: returns nothing
+    """
     ret = b''
 
     for n in l:
@@ -13,7 +26,14 @@ def list_to_bytes(l):
 
 # Main logic for communication
 def client_thread(connection, address):
+    """
+    Implements the FSM with the app's logic, it also establishes connection to
+    a database in order to obtain user information and send image data.
 
+    :param connection: the python socket object, used for transmission.
+    :param address: the client's address, used for diagnostics.
+    :return: returns nothing
+    """
     # Connect to database
     db = MySQLdb.connect(host = 'localhost', user = 'pokeuser',
             passwd = 'poke', db = 'pokedex')
@@ -22,7 +42,7 @@ def client_thread(connection, address):
 
     # Only one user, this can change to add functionality
     user_id = 1
-    
+
     # Set persistent variables
     state = 0
     attempts = 3
@@ -72,10 +92,10 @@ def client_thread(connection, address):
 
                 out_code = (22).to_bytes(1, byteorder = 'big')
                 pokemon_id_code = pokemon_id.to_bytes(1, byteorder = 'big')
-                
+
 
                 # Get image bytes, first, open the image using database info, store size
-                cursor.execute('SELECT image_path FROM pokemon WHERE pokemon_id = ' + 
+                cursor.execute('SELECT image_path FROM pokemon WHERE pokemon_id = ' +
                         str(pokemon_id))
                 path = cursor.fetchall()[0][0]
 
@@ -91,12 +111,12 @@ def client_thread(connection, address):
                 reply = out_code + pokemon_id_code + image_size_code + image_bytes
 
                 # Update the database if needed
-                cursor.execute('SELECT * FROM caught WHERE user_id = ' + str(user_id) + 
+                cursor.execute('SELECT * FROM caught WHERE user_id = ' + str(user_id) +
                         ' AND pokemon_id = ' + str(pokemon_id))
 
                 if not cursor.fetchall():
                     cursor.execute('INSERT INTO caught(user_id, pokemon_id) VALUES (' +
-                            str(user_id) + ', ' + str(pokemon_id) + ')') 
+                            str(user_id) + ', ' + str(pokemon_id) + ')')
 
                 # Cleanup
                 attempts = 3

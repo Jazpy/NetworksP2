@@ -1,4 +1,12 @@
-192#!/usr/bin/python
+"""
+This module handles connection to the server on the client side, as well
+as implementing the client's responses to the server (yes or no). It uses
+tkinter to show a window with the server's messages and data.
+
+    pydoc -w client
+
+"""
+#!/usr/bin/python
 import socket
 import sys
 from io import BytesIO
@@ -8,10 +16,27 @@ from select import select
 
 # Aux function
 def code_to_byte(n):
+    """
+    Transform a number type into bytes for transmission.
+
+    :param n: Number to transform into bytes
+    :return: byte representation of n
+    """
     return n.to_bytes(1, byteorder = 'big')
 
 class poke_client:
+    """
+    poke_client encapsulates the client side functions for communication with
+    the server, as well as displaying the information.
+    """
     def __init__(self, master):
+        """
+        Construct a new 'poke_client' object. Creates a window and establishes
+        a connection to the server.
+
+        :param master: Used by tkinter to display a window
+        :return: returns nothing
+        """
         # GUI stuff
         self.master = master
         master.title("Pokedex")
@@ -37,7 +62,6 @@ class poke_client:
         # Socket and app stuff
         self.s = socket.socket()
 
-
         #lines added by Davif,
 
         dns = socket.gethostbyaddr(sys.argv[1])
@@ -59,6 +83,11 @@ class poke_client:
         self.server_loop()
 
     def yes(self):
+        """
+        Construct a 'yes' reply and send it to the server.
+
+        :return: returns nothing
+        """
         if self.state == 1 or self.state == 3:
             self.state = 3
             reply = code_to_byte(30)
@@ -66,6 +95,11 @@ class poke_client:
             self.server_loop()
 
     def no(self):
+        """
+        Construct a 'no' reply and send it to the server.
+
+        :return: returns nothing
+        """
         if self.state == 1 or self.state == 3:
             self.state = 7
             reply = code_to_byte(31)
@@ -73,11 +107,21 @@ class poke_client:
             self.server_loop()
 
     def close(self):
+        """
+        Close connection to the server.
+
+        :return: returns nothing
+        """
         self.state = 7
         self.server_loop()
         self.master.quit()
 
     def server_loop(self):
+        """
+        Implementation of the app's FSM as explained in the report.
+
+        :return: returns nothing
+        """
 
         # Clean variable
         reply = b''

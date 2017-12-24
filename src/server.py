@@ -1,3 +1,10 @@
+"""
+This module handles server side connection, listening to ports and creating
+threads for each client that connects.
+
+    pydoc -w server
+
+"""
 #!/usr/bin/python
 
 import socket
@@ -5,6 +12,11 @@ from _thread import *
 from communication import client_thread
 
 def main():
+    """
+    Listens for new clients and creates a new thread for each of them.
+
+    :return: returns nothing
+    """
     host = ''
     port = 9999
 
