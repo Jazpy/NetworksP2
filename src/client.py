@@ -48,7 +48,9 @@ class poke_client:
         self.port = 9999
 
         # Begin connection with server and change states
+        self.s.settimeout(10)
         self.s.connect((self.host, self.port))
+        self.s.settimeout(None)
         reply = code_to_byte(10)
         self.s.sendall(reply)
         self.state = 1
