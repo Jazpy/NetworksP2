@@ -5,7 +5,7 @@
 make [install/install-server/run-server/run-client] \- Posibles maneras de ejecutar este programa.
 .SH DESCRIPTION
 En caso de servidor, se tiene que ejecutar primero con la opcion install-server, y despues la opcion run-server.
-En caso de cliente, ejecutar con la opcion install y posteriormente con la opcion run-client.
+En caso de cliente, ejecutar con la opcion install y posteriormente con la opcion run-client y con la variable addr=(dirIP del servidor).
 .SH OPCIONES
 Las descritas en la seccion anterior.
 Al ejecutar install-server se pide la contraseña de tu usuario de mysql.
@@ -15,4 +15,4 @@ Funciona correctamente si se tienen instaladas las DEPENDENCIAS.
 MySQL, tk
 .SH AUTORES
 David Hernández.
-Jazpes Medina.
+Jazeps Medina.

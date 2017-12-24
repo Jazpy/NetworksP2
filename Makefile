@@ -1,5 +1,5 @@
 run-client:
-	python src/client.py "192.168.1.67"
+	python src/client.py $(addr)
 
 install:
 	pip install mysqlclient
