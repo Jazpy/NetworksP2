@@ -10,3 +10,6 @@ install-server:
 
 run-server:
 	cd src/ && python -m server 9999
+
+doc:
+	cd src/ && pydoc server communication

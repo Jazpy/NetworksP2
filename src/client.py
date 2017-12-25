@@ -38,6 +38,7 @@ class poke_client:
         :return: returns nothing
         """
         # GUI stuff
+        
         self.master = master
         master.title("Pokedex")
         master.minsize(width = 640, height = 480)
@@ -63,9 +64,12 @@ class poke_client:
         self.s = socket.socket()
 
         #lines added by Davif,
-
-        dns = socket.gethostbyaddr(sys.argv[1])
-        self.host = dns[0]
+        dns = ""
+        if len(sys.argv) == 1:
+            self.host = socket.gethostname()
+        else:
+            dns = socket.gethostbyaddr(sys.argv[1])
+            self.host = dns[0]
         #lines added by Davif
 
 
@@ -81,6 +85,7 @@ class poke_client:
 
         # Call the server communication loop
         self.server_loop()
+
 
     def yes(self):
         """

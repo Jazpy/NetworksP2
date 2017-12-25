@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module server</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>server</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/david/Documents/Redes/Proyecto2/NetworksP2/src/server.py">/home/david/Documents/Redes/Proyecto2/NetworksP2/src/server.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;handles&nbsp;server&nbsp;side&nbsp;connection,&nbsp;listening&nbsp;to&nbsp;ports&nbsp;and&nbsp;creating<br>
+threads&nbsp;for&nbsp;each&nbsp;client&nbsp;that&nbsp;connects.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pydoc&nbsp;-w&nbsp;server</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="socket.html">socket</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-allocate"><strong>allocate</strong></a>(...)</dt><dd><tt><a href="#-allocate_lock">allocate_lock</a>()&nbsp;-&gt;&nbsp;lock&nbsp;object<br>
+(<a href="#-allocate">allocate</a>()&nbsp;is&nbsp;an&nbsp;obsolete&nbsp;synonym)<br>
+&nbsp;<br>
+Create&nbsp;a&nbsp;new&nbsp;lock&nbsp;object.&nbsp;See&nbsp;help(type(threading.Lock()))&nbsp;for<br>
+information&nbsp;about&nbsp;locks.</tt></dd></dl>
+ <dl><dt><a name="-allocate_lock"><strong>allocate_lock</strong></a>(...)</dt><dd><tt><a href="#-allocate_lock">allocate_lock</a>()&nbsp;-&gt;&nbsp;lock&nbsp;object<br>
+(<a href="#-allocate">allocate</a>()&nbsp;is&nbsp;an&nbsp;obsolete&nbsp;synonym)<br>
+&nbsp;<br>
+Create&nbsp;a&nbsp;new&nbsp;lock&nbsp;object.&nbsp;See&nbsp;help(type(threading.Lock()))&nbsp;for<br>
+information&nbsp;about&nbsp;locks.</tt></dd></dl>
+ <dl><dt><a name="-exit"><strong>exit</strong></a>(...)</dt><dd><tt><a href="#-exit">exit</a>()<br>
+(<a href="#-exit_thread">exit_thread</a>()&nbsp;is&nbsp;an&nbsp;obsolete&nbsp;synonym)<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;synonymous&nbsp;to&nbsp;``raise&nbsp;SystemExit''.&nbsp;&nbsp;It&nbsp;will&nbsp;cause&nbsp;the&nbsp;current<br>
+thread&nbsp;to&nbsp;exit&nbsp;silently&nbsp;unless&nbsp;the&nbsp;exception&nbsp;is&nbsp;caught.</tt></dd></dl>
+ <dl><dt><a name="-exit_thread"><strong>exit_thread</strong></a>(...)</dt><dd><tt><a href="#-exit">exit</a>()<br>
+(<a href="#-exit_thread">exit_thread</a>()&nbsp;is&nbsp;an&nbsp;obsolete&nbsp;synonym)<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;synonymous&nbsp;to&nbsp;``raise&nbsp;SystemExit''.&nbsp;&nbsp;It&nbsp;will&nbsp;cause&nbsp;the&nbsp;current<br>
+thread&nbsp;to&nbsp;exit&nbsp;silently&nbsp;unless&nbsp;the&nbsp;exception&nbsp;is&nbsp;caught.</tt></dd></dl>
+ <dl><dt><a name="-get_ident"><strong>get_ident</strong></a>(...)</dt><dd><tt><a href="#-get_ident">get_ident</a>()&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Return&nbsp;a&nbsp;non-zero&nbsp;integer&nbsp;that&nbsp;uniquely&nbsp;identifies&nbsp;the&nbsp;current&nbsp;thread<br>
+amongst&nbsp;other&nbsp;threads&nbsp;that&nbsp;exist&nbsp;simultaneously.<br>
+This&nbsp;may&nbsp;be&nbsp;used&nbsp;to&nbsp;identify&nbsp;per-thread&nbsp;resources.<br>
+Even&nbsp;though&nbsp;on&nbsp;some&nbsp;platforms&nbsp;threads&nbsp;identities&nbsp;may&nbsp;appear&nbsp;to&nbsp;be<br>
+allocated&nbsp;consecutive&nbsp;numbers&nbsp;starting&nbsp;at&nbsp;1,&nbsp;this&nbsp;behavior&nbsp;should&nbsp;not<br>
+be&nbsp;relied&nbsp;upon,&nbsp;and&nbsp;the&nbsp;number&nbsp;should&nbsp;be&nbsp;seen&nbsp;purely&nbsp;as&nbsp;a&nbsp;magic&nbsp;cookie.<br>
+A&nbsp;thread's&nbsp;identity&nbsp;may&nbsp;be&nbsp;reused&nbsp;for&nbsp;another&nbsp;thread&nbsp;after&nbsp;it&nbsp;exits.</tt></dd></dl>
+ <dl><dt><a name="-interrupt_main"><strong>interrupt_main</strong></a>(...)</dt><dd><tt><a href="#-interrupt_main">interrupt_main</a>()<br>
+&nbsp;<br>
+Raise&nbsp;a&nbsp;KeyboardInterrupt&nbsp;in&nbsp;the&nbsp;main&nbsp;thread.<br>
+A&nbsp;subthread&nbsp;can&nbsp;use&nbsp;this&nbsp;function&nbsp;to&nbsp;interrupt&nbsp;the&nbsp;main&nbsp;thread.</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Listens&nbsp;for&nbsp;new&nbsp;clients&nbsp;and&nbsp;creates&nbsp;a&nbsp;new&nbsp;thread&nbsp;for&nbsp;each&nbsp;of&nbsp;them.<br>
+&nbsp;<br>
+:return:&nbsp;returns&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-stack_size"><strong>stack_size</strong></a>(...)</dt><dd><tt><a href="#-stack_size">stack_size</a>([size])&nbsp;-&gt;&nbsp;size<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;thread&nbsp;stack&nbsp;size&nbsp;used&nbsp;when&nbsp;creating&nbsp;new&nbsp;threads.&nbsp;&nbsp;The<br>
+optional&nbsp;size&nbsp;argument&nbsp;specifies&nbsp;the&nbsp;stack&nbsp;size&nbsp;(in&nbsp;bytes)&nbsp;to&nbsp;be&nbsp;used<br>
+for&nbsp;subsequently&nbsp;created&nbsp;threads,&nbsp;and&nbsp;must&nbsp;be&nbsp;0&nbsp;(use&nbsp;platform&nbsp;or<br>
+configured&nbsp;default)&nbsp;or&nbsp;a&nbsp;positive&nbsp;integer&nbsp;value&nbsp;of&nbsp;at&nbsp;least&nbsp;32,768&nbsp;(32k).<br>
+If&nbsp;changing&nbsp;the&nbsp;thread&nbsp;stack&nbsp;size&nbsp;is&nbsp;unsupported,&nbsp;a&nbsp;ThreadError<br>
+exception&nbsp;is&nbsp;raised.&nbsp;&nbsp;If&nbsp;the&nbsp;specified&nbsp;size&nbsp;is&nbsp;invalid,&nbsp;a&nbsp;ValueError<br>
+exception&nbsp;is&nbsp;raised,&nbsp;and&nbsp;the&nbsp;stack&nbsp;size&nbsp;is&nbsp;unmodified.&nbsp;&nbsp;32k&nbsp;bytes<br>
+&nbsp;currently&nbsp;the&nbsp;minimum&nbsp;supported&nbsp;stack&nbsp;size&nbsp;value&nbsp;to&nbsp;guarantee<br>
+sufficient&nbsp;stack&nbsp;space&nbsp;for&nbsp;the&nbsp;interpreter&nbsp;itself.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;some&nbsp;platforms&nbsp;may&nbsp;have&nbsp;particular&nbsp;restrictions&nbsp;on&nbsp;values&nbsp;for<br>
+the&nbsp;stack&nbsp;size,&nbsp;such&nbsp;as&nbsp;requiring&nbsp;a&nbsp;minimum&nbsp;stack&nbsp;size&nbsp;larger&nbsp;than&nbsp;32kB&nbsp;or<br>
+requiring&nbsp;allocation&nbsp;in&nbsp;multiples&nbsp;of&nbsp;the&nbsp;system&nbsp;memory&nbsp;page&nbsp;size<br>
+-&nbsp;platform&nbsp;documentation&nbsp;should&nbsp;be&nbsp;referred&nbsp;to&nbsp;for&nbsp;more&nbsp;information<br>
+(4kB&nbsp;pages&nbsp;are&nbsp;common;&nbsp;using&nbsp;multiples&nbsp;of&nbsp;4096&nbsp;for&nbsp;the&nbsp;stack&nbsp;size&nbsp;is<br>
+the&nbsp;suggested&nbsp;approach&nbsp;in&nbsp;the&nbsp;absence&nbsp;of&nbsp;more&nbsp;specific&nbsp;information).</tt></dd></dl>
+ <dl><dt><a name="-start_new"><strong>start_new</strong></a>(...)</dt><dd><tt><a href="#-start_new_thread">start_new_thread</a>(function,&nbsp;args[,&nbsp;kwargs])<br>
+(<a href="#-start_new">start_new</a>()&nbsp;is&nbsp;an&nbsp;obsolete&nbsp;synonym)<br>
+&nbsp;<br>
+Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;and&nbsp;return&nbsp;its&nbsp;identifier.&nbsp;&nbsp;The&nbsp;thread&nbsp;will&nbsp;call&nbsp;the<br>
+function&nbsp;with&nbsp;positional&nbsp;arguments&nbsp;from&nbsp;the&nbsp;tuple&nbsp;args&nbsp;and&nbsp;keyword&nbsp;arguments<br>
+taken&nbsp;from&nbsp;the&nbsp;optional&nbsp;dictionary&nbsp;kwargs.&nbsp;&nbsp;The&nbsp;thread&nbsp;exits&nbsp;when&nbsp;the<br>
+function&nbsp;returns;&nbsp;the&nbsp;return&nbsp;value&nbsp;is&nbsp;ignored.&nbsp;&nbsp;The&nbsp;thread&nbsp;will&nbsp;also&nbsp;exit<br>
+when&nbsp;the&nbsp;function&nbsp;raises&nbsp;an&nbsp;unhandled&nbsp;exception;&nbsp;a&nbsp;stack&nbsp;trace&nbsp;will&nbsp;be<br>
+printed&nbsp;unless&nbsp;the&nbsp;exception&nbsp;is&nbsp;SystemExit.</tt></dd></dl>
+ <dl><dt><a name="-start_new_thread"><strong>start_new_thread</strong></a>(...)</dt><dd><tt><a href="#-start_new_thread">start_new_thread</a>(function,&nbsp;args[,&nbsp;kwargs])<br>
+(<a href="#-start_new">start_new</a>()&nbsp;is&nbsp;an&nbsp;obsolete&nbsp;synonym)<br>
+&nbsp;<br>
+Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;and&nbsp;return&nbsp;its&nbsp;identifier.&nbsp;&nbsp;The&nbsp;thread&nbsp;will&nbsp;call&nbsp;the<br>
+function&nbsp;with&nbsp;positional&nbsp;arguments&nbsp;from&nbsp;the&nbsp;tuple&nbsp;args&nbsp;and&nbsp;keyword&nbsp;arguments<br>
+taken&nbsp;from&nbsp;the&nbsp;optional&nbsp;dictionary&nbsp;kwargs.&nbsp;&nbsp;The&nbsp;thread&nbsp;exits&nbsp;when&nbsp;the<br>
+function&nbsp;returns;&nbsp;the&nbsp;return&nbsp;value&nbsp;is&nbsp;ignored.&nbsp;&nbsp;The&nbsp;thread&nbsp;will&nbsp;also&nbsp;exit<br>
+when&nbsp;the&nbsp;function&nbsp;raises&nbsp;an&nbsp;unhandled&nbsp;exception;&nbsp;a&nbsp;stack&nbsp;trace&nbsp;will&nbsp;be<br>
+printed&nbsp;unless&nbsp;the&nbsp;exception&nbsp;is&nbsp;SystemExit.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>TIMEOUT_MAX</strong> = 9223372036.0</td></tr></table>
+</body></html>

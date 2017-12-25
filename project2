@@ -2,7 +2,7 @@
 .\" Contacte a davfep_96@ciencias.unam.mx en caso de problemas.
 .TH man 1 "21 Dec 2017" "1.1" "Projecto2 pagina de manual"
 .SH NOMBRE
-make [install/install-server/run-server/run-client] \- Posibles maneras de ejecutar este programa.
+make [install/install-server/run-server/run-client/doc] \- Posibles maneras de ejecutar este programa.
 .SH DESCRIPTION
 En caso de servidor, se tiene que ejecutar primero con la opcion install-server, y despues la opcion run-server.
 En caso de cliente, ejecutar con la opcion install y posteriormente con la opcion run-client y con la variable addr=(dirIP del servidor).
